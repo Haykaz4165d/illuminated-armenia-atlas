@@ -30,7 +30,7 @@ export function ModelReadingColumn({ name, result, error, score, hasReference, r
   onRun: () => void;
 }) {
   const uncertain = result?.lines.flatMap((line, i) => line.segments.filter(s => s.status !== 'read').map(s => ({ line: i + 1, s }))) ?? [];
-  return <article className="flex min-w-0 flex-col rounded-md border border-border bg-card/40" aria-busy={running}>
+  return <article className="flex min-w-0 flex-col rounded-md border border-border bg-muted/40" aria-busy={running}>
     <header className="flex flex-wrap items-center justify-between gap-3 border-b border-border p-4">
       <h3 className="text-lg font-semibold">{name}</h3>
       <Button variant="outline" size="sm" disabled={disabled} onClick={onRun}>
