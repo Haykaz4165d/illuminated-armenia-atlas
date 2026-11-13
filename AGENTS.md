@@ -38,3 +38,4 @@ use the editor.
 - Return aligned source and modern-Armenian text per segment in one server-side inference; display modern text first and keep shared uncertainty, because translation must not hide ambiguous source readings.
 - Compare model source transcriptions locally against learner-supplied expert source using normalized Levenshtein CER; never send the reference to inference or present sample agreement as general model accuracy, because ground truth must remain independent.
 - No database or sign-in: the imported app keeps uploads in page memory and defines no tables, so Lovable Cloud stays off until persistence is requested.
+- Presentation 3D motion (slide turns, depth entrances, letter rings, pointer tilt) is pure CSS transforms keyed on slide changes, with a prefers-reduced-motion off switch, because it needs no WebGL library and renders the same on SSR and phones.

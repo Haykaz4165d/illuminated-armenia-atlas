@@ -68,7 +68,7 @@ const slides: ReactNode[] = [
   <>
     <img src={hero} alt="" className="absolute inset-0 h-full w-full object-cover" />
     <div className="slide-overlay absolute inset-0" />
-    <LetterRing items={alphabet.slice(0, 12).map(([l]) => [l, null])} radius={330} className="left-[1180px] top-[120px] h-[840px] w-[620px]" />
+    <LetterRing items={alphabet.slice(0, 12).map(([l]) => [l, null])} radius={320} className="left-[1090px] top-[120px] h-[840px] w-[620px]" />
     <div className="relative flex h-full max-w-[1100px] flex-col justify-center gap-10 px-[120px]">
       <div className="slide-kicker">Պատմություն · Գիտություն · Ապագա</div>
       <h1 className="slide-title-lg">Հայոց պատմությունը և արհեստական բանականությունը</h1>
@@ -78,7 +78,7 @@ const slides: ReactNode[] = [
       </Button>
     </div>
   </>,
-  <ImageSlide img={manuscript} kicker="405 թ." title="Այբուբենը՝ առաջին «կոդը»" extra={<LetterRing items={alphabet} radius={380} className="left-[1080px] top-[120px] h-[840px] w-[760px]" />}>
+  <ImageSlide img={manuscript} kicker="405 թ." title="Այբուբենը՝ առաջին «կոդը»" extra={<LetterRing items={alphabet} radius={340} className="left-[1020px] top-[120px] h-[840px] w-[760px]" />}>
     <p className="slide-body">Մեսրոպ Մաշտոցը ստեղծեց 36 տառից բաղկացած հայոց այբուբենը։ Յուրաքանչյուր տառ ուներ նաև թվային արժեք․ սա տեղեկատվության կոդավորման համակարգ էր։</p>
     <p className="slide-body">Արհեստական բանականությունն այսօր նույնպես աշխատում է կոդավորված նշաններով՝ տառերը վերածելով թվերի (տոկենների)։</p>
   </ImageSlide>,
