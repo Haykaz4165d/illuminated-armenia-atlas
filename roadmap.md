@@ -12,4 +12,6 @@
 - [x] Add two explicit model runs and a local expert source reference.
 - [x] Calculate sample-specific character agreement and CER without invented benchmarks.
 - [x] Verify calculation rules, image upload, model request/error display, and desktop/mobile layout.
-- [ ] Verify successful two-model inference and read back percentages (AI calls now succeed in this project; needs an expert reference text to read back percentages).
+- [x] Verify successful two-model inference and read back percentages (verified on the comparison page: 100.0% and 98.4%).
+# Comparison page
+- [x] Dedicated page: upload photo, expert transcription, both models side by side.
