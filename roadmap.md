@@ -15,3 +15,5 @@
 - [x] Verify successful two-model inference and read back percentages (verified on the comparison page: 100.0% and 98.4%).
 # Comparison page
 - [x] Dedicated page: upload photo, expert transcription, both models side by side.
+# 3D presentation motion
+- [x] 3D slide turns, depth entrances for text and cards, drifting photos, spinning Armenian letter rings.

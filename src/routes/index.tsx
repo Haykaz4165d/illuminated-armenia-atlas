@@ -28,11 +28,33 @@ export const Route = createFileRoute("/")({
   component: Deck,
 });
 
-function ImageSlide({ img, kicker, title, children }: { img: string; kicker: string; title: string; children: ReactNode }) {
+// Letters with their traditional numeric values (Ա = 1 … Ք = 9000).
+const alphabet: [string, number][] = [
+  ["Ա", 1], ["Բ", 2], ["Գ", 3], ["Դ", 4], ["Ե", 5], ["Զ", 6], ["Է", 7], ["Ը", 8], ["Թ", 9],
+  ["Ժ", 10], ["Ի", 20], ["Լ", 30], ["Խ", 40], ["Ծ", 50], ["Կ", 60], ["Հ", 70], ["Ձ", 80], ["Ղ", 90],
+];
+
+function LetterRing({ items, radius, className }: { items: [string, number | null][]; radius: number; className: string }) {
+  return (
+    <div className={`letter-stage ${className}`} aria-hidden="true">
+      <div className="letter-ring">
+        {items.map(([l, v], k) => (
+          <div key={l} className="letter-glyph" style={{ transform: `rotateY(${(360 / items.length) * k}deg) translateZ(${radius}px)` }}>
+            <span>{l}</span>
+            {v !== null && <small>{v}</small>}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function ImageSlide({ img, kicker, title, children, extra }: { img: string; kicker: string; title: string; children: ReactNode; extra?: ReactNode }) {
   return (
     <>
       <img src={img} alt="" className="absolute inset-0 h-full w-full object-cover" />
       <div className="slide-overlay absolute inset-0" />
+      {extra}
       <div className="relative flex h-full max-w-[1000px] flex-col justify-center gap-8 px-[120px]">
         <div className="slide-kicker">{kicker}</div>
         <h2 className="slide-title">{title}</h2>
@@ -46,6 +68,7 @@ const slides: ReactNode[] = [
   <>
     <img src={hero} alt="" className="absolute inset-0 h-full w-full object-cover" />
     <div className="slide-overlay absolute inset-0" />
+    <LetterRing items={alphabet.slice(0, 12).map(([l]) => [l, null])} radius={320} className="left-[1090px] top-[120px] h-[840px] w-[620px]" />
     <div className="relative flex h-full max-w-[1100px] flex-col justify-center gap-10 px-[120px]">
       <div className="slide-kicker">Պատմություն · Գիտություն · Ապագա</div>
       <h1 className="slide-title-lg">Հայոց պատմությունը և արհեստական բանականությունը</h1>
@@ -55,7 +78,7 @@ const slides: ReactNode[] = [
       </Button>
     </div>
   </>,
-  <ImageSlide img={manuscript} kicker="405 թ." title="Այբուբենը՝ առաջին «կոդը»">
+  <ImageSlide img={manuscript} kicker="405 թ." title="Այբուբենը՝ առաջին «կոդը»" extra={<LetterRing items={alphabet} radius={340} className="left-[1020px] top-[120px] h-[840px] w-[760px]" />}>
     <p className="slide-body">Մեսրոպ Մաշտոցը ստեղծեց 36 տառից բաղկացած հայոց այբուբենը։ Յուրաքանչյուր տառ ուներ նաև թվային արժեք․ սա տեղեկատվության կոդավորման համակարգ էր։</p>
     <p className="slide-body">Արհեստական բանականությունն այսօր նույնպես աշխատում է կոդավորված նշաններով՝ տառերը վերածելով թվերի (տոկենների)։</p>
   </ImageSlide>,
@@ -279,11 +302,21 @@ const slides: ReactNode[] = [
 ];
 
 function Deck() {
-  const [i, setI] = useState(0);
+  const [{ i, prev, dir }, setNav] = useState({ i: 0, prev: -1, dir: 1 });
   const [scale, setScale] = useState(0.2);
   const box = useRef<HTMLDivElement>(null);
   const touch = useRef(0);
-  const go = (d: number) => setI((v) => Math.max(0, Math.min(slides.length - 1, v + d)));
+  const go = (d: number) => setNav((s) => {
+    const n = Math.max(0, Math.min(slides.length - 1, s.i + d));
+    return n === s.i ? s : { i: n, prev: s.i, dir: d > 0 ? 1 : -1 };
+  });
+  // Pointer position drives a gentle 3D tilt through CSS variables, without re-rendering.
+  const tilt = (x: number, y: number) => {
+    const el = box.current;
+    if (!el) return;
+    el.style.setProperty("--tx", x.toFixed(3));
+    el.style.setProperty("--ty", y.toFixed(3));
+  };
 
   useEffect(() => {
     const el = box.current;
@@ -307,10 +340,28 @@ function Deck() {
       <div
         ref={box}
         className="relative flex-1 overflow-hidden"
+        onPointerMove={(e) => {
+          if (e.pointerType !== "mouse") return;
+          const r = e.currentTarget.getBoundingClientRect();
+          tilt(((e.clientX - r.left) / r.width) * 2 - 1, ((e.clientY - r.top) / r.height) * 2 - 1);
+        }}
+        onPointerLeave={() => tilt(0, 0)}
         onTouchStart={(e) => (touch.current = (e.touches[0]?.clientX ?? 0))}
         onTouchEnd={(e) => { const dx = (e.changedTouches[0]?.clientX ?? 0) - touch.current; if (Math.abs(dx) > 40) go(dx < 0 ? 1 : -1); }}
       >
-        <div className="slide-content" style={{ transform: `scale(${scale})` }}>{slides[i]}</div>
+        <div className="slide-content" style={{ transform: `scale(${scale})`, ["--d" as string]: dir }}>
+          {prev >= 0 && (
+            <div
+              key={`out-${prev}`}
+              className="slide-face slide-exit"
+              aria-hidden="true"
+              onAnimationEnd={(e) => { if (e.target === e.currentTarget) setNav((s) => ({ ...s, prev: -1 })); }}
+            >
+              {slides[prev]}
+            </div>
+          )}
+          <div key={`in-${i}`} className={`slide-face${prev >= 0 ? " slide-enter" : ""}`}>{slides[i]}</div>
+        </div>
       </div>
       <div className="flex items-center justify-center gap-4 p-3 text-sm">
         <button className="deck-btn rounded-full px-4 py-2" onClick={() => go(-1)} aria-label="Նախորդ">←</button>
