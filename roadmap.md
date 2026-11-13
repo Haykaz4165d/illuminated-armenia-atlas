@@ -12,4 +12,4 @@
 - [x] Add two explicit model runs and a local expert source reference.
 - [x] Calculate sample-specific character agreement and CER without invented benchmarks.
 - [x] Verify calculation rules, image upload, model request/error display, and desktop/mobile layout.
-- [ ] Verify successful two-model inference and read back percentages (blocked: AI balance requires replenishment).
+- [ ] Verify successful two-model inference and read back percentages (AI calls now succeed in this project; needs an expert reference text to read back percentages).

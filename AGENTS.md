@@ -37,3 +37,4 @@ use the editor.
 - Keep the manuscript route in the initial client graph with an empty codeSplitGroupings override so navigating to the upload workspace cannot fail on a stale deferred route chunk; other routes retain automatic splitting.
 - Return aligned source and modern-Armenian text per segment in one server-side inference; display modern text first and keep shared uncertainty, because translation must not hide ambiguous source readings.
 - Compare model source transcriptions locally against learner-supplied expert source using normalized Levenshtein CER; never send the reference to inference or present sample agreement as general model accuracy, because ground truth must remain independent.
+- No database or sign-in: the imported app keeps uploads in page memory and defines no tables, so Lovable Cloud stays off until persistence is requested.
