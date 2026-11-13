@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Button } from '@/components/ui/button';
-import { ScanText, Upload } from 'lucide-react';
+import { Columns2, ScanText, Upload } from 'lucide-react';
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import hero from "@/assets/hero.jpg";
 import manuscript from "@/assets/manuscript.jpg";
