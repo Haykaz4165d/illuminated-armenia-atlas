@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { useServerFn } from '@tanstack/react-start';
 import { useEffect, useRef, useState } from 'react';
-import { ArrowLeft, Upload, ScanText, LoaderCircle, Trash2, AlertTriangle, Maximize, Minimize } from 'lucide-react';
+import { ArrowLeft, Upload, ScanText, LoaderCircle, Trash2, AlertTriangle, Maximize, Minimize, Columns2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { transcribeManuscript } from '@/lib/manuscript.functions';
 import { validateImageFile, type Transcription } from '@/lib/manuscript';
@@ -114,7 +114,7 @@ function ManuscriptPage() {
       <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-5 py-4">
         <Button asChild variant="ghost"><Link to="/"><ArrowLeft />Սլայդներ</Link></Button>
         <div className="flex items-center gap-3">
-          <span className="hidden text-sm text-muted-foreground sm:inline">Պատմություն × AI</span>
+          <Button asChild variant="ghost"><Link to="/compare"><Columns2 />Համեմատել մոդելները</Link></Button>
           <Button variant="outline" size="icon" aria-label={fullPage ? 'Փակել ամբողջ էկրանը' : 'Ամբողջ էկրան'} title={fullPage ? 'Փակել ամբողջ էկրանը' : 'Ամբողջ էկրան'} aria-pressed={fullPage} onClick={() => void toggleFullPage()}>{fullPage ? <Minimize /> : <Maximize />}</Button>
         </div>
       </div>

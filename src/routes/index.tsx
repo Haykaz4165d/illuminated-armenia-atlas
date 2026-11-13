@@ -300,7 +300,8 @@ function Deck() {
 
   return (
     <div className="deck-root flex h-[100dvh] flex-col">
-      <div className="flex justify-end px-3 pt-3">
+      <div className="flex flex-wrap justify-end gap-2 px-3 pt-3">
+        <Button asChild variant="secondary" className="deck-btn"><Link to="/compare"><Columns2 />Համեմատել</Link></Button>
         <Button asChild variant="secondary" className="deck-btn"><Link to="/manuscript"><ScanText />Վերծանել ձեռագիր</Link></Button>
       </div>
       <div
